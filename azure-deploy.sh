@@ -7,7 +7,7 @@ set -e
 
 # ── Variáveis ────────────────────────────────────────────────────────────────
 RESOURCE_GROUP="petbuddies-rg"
-LOCATION="brazilsouth"
+LOCATION="mexicocentral"
 VM_NAME="vm-petbuddies"
 VM_SIZE="Standard_B4ms"        # 4 vCPUs / 16 GB — mínimo para Oracle XE + 3 apps
 VNET_NAME="vnet-petbuddies"
