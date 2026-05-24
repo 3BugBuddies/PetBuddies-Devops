@@ -9,7 +9,7 @@ set -e
 RESOURCE_GROUP="petbuddies-rg"
 LOCATION="mexicocentral"
 VM_NAME="vm-petbuddies"
-VM_SIZE="Standard_B4ms"        # 4 vCPUs / 16 GB — mínimo para Oracle XE + 3 apps
+VM_SIZE="Standard_D4s_v3"      # 4 vCPUs / 16 GB — mínimo para Oracle XE + 3 apps
 VNET_NAME="vnet-petbuddies"
 NSG_NAME="nsg-petbuddies"
 PUBLIC_IP_NAME="pip-petbuddies"
