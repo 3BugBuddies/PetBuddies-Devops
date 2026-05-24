@@ -1,0 +1,50 @@
+# Credenciais — nunca versionar
+.env
+
+# Java / Maven
+target/
+*.class
+*.jar
+*.war
+*.ear
+.mvn/wrapper/maven-wrapper.jar
+
+# .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Docker
+*.log
+
+# Arquivos internos — não versionar
+devops-azure-deploy.md
+devops-constraints.md
+Aula 08_01 - deploy_dimdim(3).sh
+
+# Artefatos de IDE e desenvolvimento local
+*.http
+**/Properties/launchSettings.json
+**/assets/
+petbuddies-ai/docs/
+PetBuddies-API/docs/
+application-dev.properties
+
+# Redundantes com a raiz
+petbuddies-ai/.env.example
+petbuddies-ai/.gitignore
+petbuddies-ai/README.md
+PetBuddies-API/.env.example
+PetBuddies-API/.gitignore
+PetBuddies-API/README.md

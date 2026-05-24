@@ -1,0 +1,106 @@
+services:
+
+  oracle-xe:
+    image: gvenzl/oracle-xe:21-slim
+    container_name: petbuddies_oracle
+    env_file:
+      - .env
+    environment:
+      ORACLE_PASSWORD: ${ORACLE_ROOT_PASSWORD}
+      APP_USER: ${ORACLE_APP_USER}
+      APP_USER_PASSWORD: ${ORACLE_APP_PASSWORD}
+      ORACLE_CHARACTERSET: AL32UTF8
+    volumes:
+      - oracle_data:/opt/oracle/oradata
+    healthcheck:
+      test: ["CMD", "healthcheck.sh"]
+      interval: 10s
+      timeout: 10s
+      retries: 20
+      start_period: 300s
+    restart: unless-stopped
+
+  petbuddies-java:
+    container_name: petbuddies_java
+    build:
+      context: ./petbuddies-ai
+    env_file:
+      - .env
+    environment:
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+      ORACLE_URL: ${ORACLE_URL}
+      ORACLE_USER: ${ORACLE_USER}
+      ORACLE_PASSWORD: ${ORACLE_APP_PASSWORD}
+      EVOLUTION_API_URL: ${EVOLUTION_API_URL}
+      EVOLUTION_API_KEY: ${EVOLUTION_API_KEY}
+      EVOLUTION_API_INSTANCE: ${EVOLUTION_API_INSTANCE}
+    depends_on:
+      oracle-xe:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+
+  petbuddies-net:
+    container_name: petbuddies_net
+    build:
+      context: ./PetBuddies-API
+    env_file:
+      - .env
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__Oracle: ${DOTNET_ORACLE_CONN}
+      MotorApi__BaseUrl: ${MOTOR_API_BASE_URL}
+    depends_on:
+      oracle-xe:
+        condition: service_healthy
+    ports:
+      - "5000:80"
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: evolution_postgres
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - evolution_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  evolution-api:
+    container_name: evolution_api
+    image: evoapicloud/evolution-api:v2.3.7
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    env_file:
+      - .env
+    environment:
+      SERVER_URL: ${EVOLUTION_SERVER_URL}
+      SERVER_PORT: ${EVOLUTION_SERVER_PORT}
+      DATABASE_ENABLED: "true"
+      DATABASE_PROVIDER: postgresql
+      DATABASE_CONNECTION_URI: ${EVOLUTION_DATABASE_URI}
+      AUTHENTICATION_TYPE: apikey
+      AUTHENTICATION_API_KEY: ${EVOLUTION_API_KEY}
+      DEL_INSTANCE: ${EVOLUTION_DEL_INSTANCE}
+      CACHE_REDIS_ENABLED: "false"
+    volumes:
+      - evolution_instances:/evolution/instances
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  oracle_data:
+  evolution_postgres_data:
+  evolution_instances:
