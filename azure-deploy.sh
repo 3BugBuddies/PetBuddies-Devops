@@ -14,7 +14,7 @@ VNET_NAME="vnet-petbuddies"
 NSG_NAME="nsg-petbuddies"
 PUBLIC_IP_NAME="pip-petbuddies"
 VM_USER="petbuddies"
-VM_PASSWORD="PetBuddies@2026"
+VM_PASSWORD="PetBuddies2026"
 REPO_URL="https://github.com/3BugBuddies/PetBuddies-Devops.git"
 
 # ── Cabeçalho ────────────────────────────────────────────────────────────────
