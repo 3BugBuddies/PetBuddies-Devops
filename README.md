@@ -149,8 +149,8 @@ volumes:
 
 O script executa em sequência, sem intervenção manual:
 
-1. Cria resource group `petbuddies-rg` em `brazilsouth`
-2. Provisiona VM Ubuntu 22.04 `Standard_B4ms` com usuário `petbuddies` (sem privilégios root)
+1. Cria resource group `petbuddies-rg` em `mexicocentral`
+2. Provisiona VM Ubuntu 22.04 `Standard_D2ds_v4` (2 vCPUs / 8 GB) com usuário `petbuddies` (sem privilégios root)
 3. Abre portas 22, 8080, 5000 e 8081 no NSG
 4. Instala Docker, Git, curl e nano na VM via `az vm run-command`
 
