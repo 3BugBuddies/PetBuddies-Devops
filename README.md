@@ -198,7 +198,7 @@ docker compose ps
 bash azure-deploy.sh
 # O script exibe o IP público ao final.
 
-# 2. SSH na VM (senha definida no script: petbuddies2026)
+# 2. SSH na VM (senha definida no script: PetBuddies@2026)
 ssh petbuddies@<IP_VM>
 
 # 3. Clonar o repositório e configurar variáveis
